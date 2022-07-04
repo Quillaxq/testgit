@@ -1,0 +1,425 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据分析</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/color_style.css">
+    <link rel="stylesheet" href="../static/css/iconfont.css">
+    <link rel="stylesheet" href="../static/css/animate.min.css">
+    <script src="../static/js/jquery-1.8.3.min.js"></script>
+    <script src="../static/js/js.js"></script>
+    <script>
+        $(function () {
+            $('.video-box').addClass('animated fadeIn');
+            $('.focal-area').addClass('animated  fadeInDownBig');
+            $('.top-header').addClass('animated bounceInDown');
+            $('.nav').addClass('animated flash');
+            $('.show-4imgbox').addClass('animated flipInX');
+        });
+    </script>
+    <style>
+        .a-top{
+            margin-top: 80px;
+        }
+    </style>
+</head>
+<body id="mbody">
+
+<!-- 导航 -->
+
+<div style="background-color:  rgba(17, 17, 17,0.9);">
+    <div class="container">
+        <div class="top-header flex-s">
+            <div class="header-left">
+                <a href="/base/" class="logo" style="font-size: 27px;">
+                    电影推荐系统
+                </a>
+            </div>
+            <div class="header-right flex-c">
+
+                <form action="/search/" method="post">
+                    {% csrf_token %}
+                    <div class="th-input-box flex-c">
+
+                        <select class="th-select" aria-hidden="true">
+                            <option>全站</option>
+                            <option>精品</option>
+                        </select>
+                        <div class="th-line"></div>
+
+                        <input type="search" class="th-input" name="keyword" placeholder="搜索你想看的电影..." autocomplete="off">
+
+                        <button class="th-btn" type="submit" name="search">搜索
+                            <i class="iconfont icon-search1"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="background-color:  rgba(228, 9, 20,0.9);">
+    <div class="container">
+        <div class="nav flex-s">
+            <div class="nav-left">
+                <ul class="flex-l">
+                    <li>
+                        <i class="iconfont icon-gengduo"></i>
+                    </li>
+                    <li>
+                        <a href="/base/">首页</a>
+                    </li>
+
+                    <li>
+                        <a href="/all/">视频大全</a>
+                    </li>
+                    <li>
+                        <a href="/analyse_data/">数据分析</a>
+                    </li>
+                    <li>
+                        <a href="/introduce/">电影推荐</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="nav-right flex-c">
+
+                {% if request.login_user %}
+                    <div class="nav-login flex-c ">
+                        <a href="" target="blank">
+                            <i class="iconfont icon-denglu"></i>
+                            {{ request.login_user.username }}</a>
+                    </div>
+                    <div class="nav-line"></div>
+                    <div class="nav-reg  flex-c">
+                        <a href="{% url 'logout' %}" target="blank">
+
+                            <i class="iconfont icon-zhuce"></i>
+
+                            退出</a>
+                    </div>
+                {% else %}
+                    <div class="nav-login flex-c ">
+                        <a href="{% url 'login' %}" target="blank">
+                            <i class="iconfont icon-denglu"></i>
+                            登录</a>
+                    </div>
+                    <div class="nav-line"></div>
+                    <div class="nav-reg  flex-c">
+                        <a href="{% url 'register' %}" target="blank">
+
+                            <i class="iconfont icon-zhuce"></i>
+
+                            注册</a>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="a-top" id="China_count" style="width: 100%;height: 800px"></div>
+<script>
+    var chartDom = document.getElementById('China_count');
+    var myChart = echarts.init(chartDom);
+    var option;
+    option = {
+        title: {
+            text: '中国逐年电影数量统计',
+            subtext: 'movie Data'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                dataView: { show: true, readOnly: false },
+                magicType: { show: true, type: ['line', 'bar'] },
+                restore: { show: true },
+                saveAsImage: { show: true }
+            }
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ movie_china_year|safe }},
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                min: 0,
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '数量',
+                type: 'bar',
+                tooltip: {
+                    valueFormatter: function (value) {
+                        return value;
+                    }
+                },
+                data: {{ movie_china_year_count|safe }}
+            }
+        ]
+    };
+    option && myChart.setOption(option);
+</script>
+<div class="a-top" id="rating_count" style="width: 100%;height: 800px"></div>
+<script>
+    var chartDom = document.getElementById('rating_count');
+    var myChart = echarts.init(chartDom);
+    var option;
+    option = {
+        title: {
+            text: '各评分电影的总数',
+            subtext: 'movie Data'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow',
+                label: {
+                    show: true
+                }
+            }
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                mark: { show: true },
+                dataView: { show: true, readOnly: false },
+                magicType: { show: true, type: ['line', 'bar'] },
+                restore: { show: true },
+                saveAsImage: { show: true }
+            }
+        },
+        calculable: true,
+        grid: {
+            top: '12%',
+            left: '1%',
+            right: '10%',
+            containLabel: true
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: {{ rating|safe }}
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        dataZoom: [
+            {
+                show: true,
+            },
+            {
+                type: 'inside',
+            },
+            {
+                show: true,
+                yAxisIndex: 0,
+                filterMode: 'empty',
+                width: 30,
+                height: '80%',
+                showDataShadow: false,
+                left: '93%'
+            }
+        ],
+        series: [
+            {
+                name: '总数',
+                type: 'bar',
+                markPoint: {
+                    data: [
+                        { type: 'max', name: 'Max' },
+                        { type: 'min', name: 'Min' }
+                    ]
+                },
+                markLine: {
+                    data: [{ type: 'average', name: 'Avg' }]
+                },
+                data: {{ rating_count|safe }}
+            }
+        ]
+    };
+    option && myChart.setOption(option);
+</script>
+<div class="a-top" id="rating" style="width: 100%;height: 800px"></div>
+<script>
+    var chartDom = document.getElementById('rating');
+    var myChart = echarts.init(chartDom);
+    var option;
+    let dataAxis = {{ movie_name|safe }};
+    let data = {{ movie_rate|safe }};
+    let yMax = 500;
+    let dataShadow = [];
+    for (let i = 0; i < data.length; i++) {
+        dataShadow.push(yMax);
+    }
+    option = {
+        title: {
+            text: '评分前十的电影',
+            subtext: 'movie Data'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                dataView: { show: true, readOnly: false },
+                magicType: { show: true, type: ['line', 'bar'] },
+                restore: { show: true },
+                saveAsImage: { show: true }
+            }
+        },
+        xAxis: {
+            data: dataAxis,
+            axisLabel: {
+                inside: true,
+                color: '#fff'
+            },
+            axisTick: {
+                show: false
+            },
+            axisLine: {
+                show: false
+            },
+            z: 10
+        },
+        yAxis: {
+            axisLine: {
+                show: false
+            },
+            axisTick: {
+                show: false
+            },
+            axisLabel: {
+                color: '#999'
+            }
+        },
+        dataZoom: [
+            {
+                type: 'inside'
+            }
+        ],
+        series: [
+            {
+                type: 'bar',
+                name: '评分',
+                showBackground: true,
+                itemStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                        { offset: 0, color: '#83bff6' },
+                        { offset: 0.5, color: '#188df0' },
+                        { offset: 1, color: '#188df0' }
+                    ])
+                },
+                emphasis: {
+                    itemStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                            { offset: 0, color: '#2378f7' },
+                            { offset: 0.7, color: '#2378f7' },
+                            { offset: 1, color: '#83bff6' }
+                        ])
+                    }
+                },
+                data: data
+            }
+        ]
+    };
+    const zoomSize = 6;
+    myChart.on('click', function (params) {
+        console.log(dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)]);
+        myChart.dispatchAction({
+            type: 'dataZoom',
+            startValue: dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)],
+            endValue:
+                dataAxis[Math.min(params.dataIndex + zoomSize / 2, data.length - 1)]
+        });
+    });
+    option && myChart.setOption(option);
+</script>
+<div class="a-top" id="year" style="width: 100%;height: 800px"></div>
+<script>
+    var chartDom = document.getElementById('year');
+    var myChart = echarts.init(chartDom);
+    var option;
+    option = {
+        title: {
+            text: '2010年及之后各年的电影数量',
+            subtext: 'movie Data'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                dataView: { show: true, readOnly: false },
+                magicType: { show: true, type: ['line', 'bar'] },
+                restore: { show: true },
+                saveAsImage: { show: true }
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: {{ movie_year|safe }}
+        },
+        yAxis: {
+            type: 'value',
+            axisLabel:{
+                formatter:'{value}'
+            }
+        },
+        series: [
+            {
+                name: '总数',
+                type: 'line',
+                tooltip: {
+                    valueFormatter: function (value) {
+                        return value;
+                    }
+                },
+                data: {{ movie_year_count|safe }},
+                areaStyle: {}
+            }
+        ]
+    };
+    option && myChart.setOption(option);
+</script>
+</body>
+</html>

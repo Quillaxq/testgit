@@ -1,0 +1,187 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/color_style.css">
+    <link rel="stylesheet" href="../static/css/iconfont.css">
+    <link rel="stylesheet" href="../static/css/animate.min.css">
+    <script src="../static/js/jquery-1.8.3.min.js"></script>
+    <script src="../static/js/js.js"></script>
+    <script>
+        $(function () {
+            $('.video-box').addClass('animated fadeIn');
+            $('.focal-area').addClass('animated  fadeInDownBig');
+            $('.top-header').addClass('animated bounceInDown');
+            $('.nav').addClass('animated flash');
+            $('.show-4imgbox').addClass('animated flipInX');
+        });
+    </script>
+    <style>
+        button{
+            font-size: 20px;
+        }
+    </style>
+    <title>分类导航</title>
+</head>
+
+<body>
+
+<!-- 导航 -->
+
+<div style="background-color:  rgba(17, 17, 17,0.9);">
+    <div class="container">
+        <div class="top-header flex-s">
+            <div class="header-left">
+                <a href="/base/" class="logo" style="font-size: 27px;">
+                    电影推荐系统
+                </a>
+            </div>
+            <div class="header-right flex-c">
+
+                <form action="/search/" method="post">
+                    {% csrf_token %}
+                    <div class="th-input-box flex-c">
+
+                        <select class="th-select" aria-hidden="true">
+                            <option>全站</option>
+                            <option>精品</option>
+                        </select>
+                        <div class="th-line"></div>
+
+                        <input type="search" class="th-input" name="keyword" placeholder="搜索你想看的电影..." autocomplete="off">
+
+                        <button class="th-btn" type="submit" name="search">搜索
+                            <i class="iconfont icon-search1"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="background-color:  rgba(228, 9, 20,0.9);">
+    <div class="container">
+        <div class="nav flex-s">
+            <div class="nav-left">
+                <ul class="flex-l">
+                    <li>
+                        <i class="iconfont icon-gengduo"></i>
+                    </li>
+                    <li>
+                        <a href="/base/">首页</a>
+                    </li>
+
+                    <li>
+                        <a href="/all/">视频大全</a>
+                    </li>
+                    <li>
+                        <a href="/analyse_data/">数据分析</a>
+                    </li>
+                    <li>
+                        <a href="/introduce/">电影推荐</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="nav-right flex-c">
+
+                {% if request.login_user %}
+                    <div class="nav-login flex-c ">
+                        <a href="" target="blank">
+                            <i class="iconfont icon-denglu"></i>
+                            {{ request.login_user.username }}</a>
+                    </div>
+                    <div class="nav-line"></div>
+                    <div class="nav-reg  flex-c">
+                        <a href="{% url 'logout' %}" target="blank">
+
+                            <i class="iconfont icon-zhuce"></i>
+
+                            退出</a>
+                    </div>
+                {% else %}
+                    <div class="nav-login flex-c ">
+                        <a href="{% url 'login' %}" target="blank">
+                            <i class="iconfont icon-denglu"></i>
+                            登录</a>
+                    </div>
+                    <div class="nav-line"></div>
+                    <div class="nav-reg  flex-c">
+                        <a href="{% url 'register' %}" target="blank">
+
+                            <i class="iconfont icon-zhuce"></i>
+
+                            注册</a>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="all container">
+    <h2>视频分类</h2>
+    <form action="/classify/" method="post">
+        <div class="classif">
+            <ul class="flex-l">
+                <li>类型：</li>
+                <li><button class="active" type="submit" name="comedy">喜剧</button></li>
+                <li><button type="submit" name="amor">爱情</button></li>
+                <li><button type="submit" name="action">动作</button></li>
+                <li><button type="submit" name="suspe">悬疑</button></li>
+                <li><button type="submit" name="elsetype">其它</button></li>
+            </ul>
+        </div>
+        <div class="classif">
+            <ul class="flex-l">
+                <li>地区：</li>
+                <li><button type="submit" name="Chinese">华语</button></li>
+                <li><button type="submit" name="HK">香港地区</button></li>
+                <li><button type="submit" name="US">美国</button></li>
+                <li><button type="submit" name="Korea">韩国</button></li>
+                <li><button type="submit" name="elsecountry">其它</button></li>
+            </ul>
+        </div>
+        <div class="classif">
+            <ul class="flex-l">
+                <li>其它分类：</li>
+                <li><button type="submit" name="newest">最新电影</button></li>
+                <li><button type="submit" name="gradest">评分最高</button></li>
+            </ul>
+        </div>
+    </form>
+    <div class="all-video flex-c-t">
+        <div>
+            <img src="../static/img/sp1.jpg" alt="" srcset="">
+        </div>
+        <div>
+            <img src="../static/img/sp2.jpg" alt="" srcset="">
+        </div>
+        <div>
+            <img src="../static/img/sp3.jpg" alt="" srcset="">
+        </div>
+        <div>
+            <img src="../static/img/sp4.jpg" alt="" srcset="">
+        </div>
+        <div>
+            <img src="../static/img/sp5.jpg" alt="" srcset="">
+        </div>
+        <div>
+            <img src="../static/img/sp6.jpg" alt="" srcset="">
+        </div>
+        <div>
+            <img src="../static/img/sp7.jpg" alt="" srcset="">
+        </div>
+        <div>
+            <img src="../static/img/sp8.jpg" alt="" srcset="">
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>登录</title>
+    <link rel="stylesheet" href="../static/css/style.css" />
+</head>
+
+<body>
+<div class="login-box">
+    <div class="from-login">
+        <div class="left"></div>
+        <div class="right">
+            <form class="form-box" action="/login/" method="post">
+                {% csrf_token %}
+                <div class="login-input-box">
+                    <div class="switch">
+                        <span class="active">登录</span>
+                        <span>/</span>
+                        <a href="/register/">
+                            <span>
+                                注册
+                            </span>
+                        </a>
+                    </div>
+                    <div class="title">欢迎登录....</div>
+                    <div class="input-text">
+                        <input type="text" name="userid" placeholder="账号" class="input" autocomplete="off" required/>
+                        <input type="password" name="userpasswd" placeholder="密码" class="input" autocomplete="off" required/>
+                        <div>
+                            <input id="login-input-checkbox" class="login-input-checkbox" type="checkbox" />
+                            <label for="login-input-checkbox">记住密码</label>
+                        </div>
+                    </div>
+                    <div class="login-input-btn">
+                        <button type="submit" value="登录" style="font-size: 24px;">登录</button>
+                        </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<p>{{ res }}</p>
+</html>

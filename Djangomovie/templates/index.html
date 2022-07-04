@@ -1,0 +1,304 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/color_style.css">
+    <link rel="stylesheet" href="../static/css/iconfont.css">
+    <link rel="stylesheet" href="../static/css/animate.min.css">
+    <script src="../static/js/jquery-1.8.3.min.js"></script>
+    <script src="../static/js/js.js"></script>
+    <script>
+        $(function () {
+            $('.video-box').addClass('animated fadeIn');
+            $('.focal-area').addClass('animated  fadeInDownBig');
+            $('.top-header').addClass('animated bounceInDown');
+            $('.nav').addClass('animated flash');
+            $('.show-4imgbox').addClass('animated flipInX');
+        });
+    </script>
+    <title>电影</title>
+</head>
+
+<body id="mbody">
+<div class="video-box ">
+    <video width="100%" height="100%" muted loop autoplay>
+        <source src="../static/other/bjvideo.mp4" type="video/mp4">
+    </video>
+</div>
+<div class="mask"></div>
+<!-- 导航 -->
+
+<div style="background-color:  rgba(17, 17, 17,0.9);">
+    <div class="container">
+        <div class="top-header flex-s">
+            <div class="header-left">
+                <a href="/base/" class="logo" style="font-size: 27px;">
+                    电影推荐系统
+                </a>
+            </div>
+            <div class="header-right flex-c">
+
+                <form action="/search/" method="post">
+                    {% csrf_token %}
+                    <div class="th-input-box flex-c">
+
+                        <select class="th-select" aria-hidden="true">
+                            <option>全站</option>
+                            <option>精品</option>
+                        </select>
+                        <div class="th-line"></div>
+
+                        <input type="search" class="th-input" name="keyword" placeholder="搜索你想看的电影..." autocomplete="off">
+
+                        <button class="th-btn" type="submit" name="search">搜索
+                            <i class="iconfont icon-search1"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="background-color:  rgba(228, 9, 20,0.9);">
+    <div class="container">
+        <div class="nav flex-s">
+            <div class="nav-left">
+                <ul class="flex-l">
+                    <li>
+                        <i class="iconfont icon-gengduo"></i>
+                    </li>
+                    <li>
+                        <a href="/base/">首页</a>
+                    </li>
+
+                    <li>
+                        <a href="/all/">视频大全</a>
+                    </li>
+                    <li>
+                        <a href="/analyse_data/">数据分析</a>
+                    </li>
+                    <li>
+                        <a href="/introduce/">电影推荐</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="nav-right flex-c">
+
+                {% if request.login_user %}
+                    <div class="nav-login flex-c ">
+                        <a href="" target="blank">
+                            <i class="iconfont icon-denglu"></i>
+                            {{ request.login_user.username }}</a>
+                    </div>
+                    <div class="nav-line"></div>
+                    <div class="nav-reg  flex-c">
+                        <a href="{% url 'logout' %}" target="blank">
+                            <i class="iconfont icon-zhuce"></i>
+                            退出</a>
+                    </div>
+                {% else %}
+                    <div class="nav-login flex-c ">
+                        <a href="{% url 'login' %}" target="blank">
+                            <i class="iconfont icon-denglu"></i>
+                            登录</a>
+                    </div>
+                    <div class="nav-line"></div>
+                    <div class="nav-reg  flex-c">
+                        <a href="{% url 'register' %}" target="blank">
+                            <i class="iconfont icon-zhuce"></i>
+                            注册</a>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 焦点区域 -->
+
+<div class="focal-area container ">
+    <div class="focal-left">
+        <img src="../static/img/dh0.png" alt="" srcset="">
+    </div>
+    <div class="focal-right">
+      <pre>
+    007无暇赴死
+
+    《No Time To Die》片长148分钟
+    创下007电影片长最久纪录
+    该片集合丹尼尔克雷格
+    雷夫范恩斯、班维萧
+    蕾雅瑟杜、安娜德哈玛斯
+    雷米马力克 导演凯瑞福永
+    （Cary Joji Fukunaga）透露
+    该片是庞德执行生涯最后一个
+    也是最具挑战性的一个任务
+    在这部电影里
+    他将和过去的所作所为
+    受过的一切苦难，彻底做个了断
+      </pre>
+        <a href="/movieinformation/?name=wxfs">
+            <div class="focal-but">立即观看</div>
+        </a>
+    </div>
+</div>
+
+<!-- 开始的4张主图 -->
+<div class="show-4imgbox container flex-s">
+    <div class="show-img">
+        <a href="/movieinformation/?name=Alita">
+            <img src="../static/img/dh1.jpg" alt="">
+            <span class="t1">Alita:战斗天使</span>
+            <span class="t2">电影/动作/ 2020</span>
+        </a>
+    </div>
+    <div class="show-img">
+        <a href="/movieinformation/?name=hbsyx">
+            <img src="../static/img/dh2.jpg" alt="">
+            <span class="t1">速度与激情：特别行动</span>
+            <span class="t2">电影/动作/ 2020</span>
+        </a>
+    </div>
+    <div class="show-img">
+        <a href="/movieinformation/?name=wyxhchn">
+            <img src="../static/img/dh3.jpg" alt="">
+            <span class="t1">我也许会摧毁你</span>
+            <span class="t2">电影/戏剧 2020</span>
+        </a>
+    </div>
+    <div class="show-img">
+        <a href="/movieinformation/?name=ald">
+            <img src="../static/img/dh4.jpg" alt="">
+            <span class="t1">阿拉丁</span>
+            <span class="t2">电影/幻想 2020</span>
+        </a>
+    </div>
+</div>
+
+<!-- <div class="back-botm"> -->
+
+<!-- 标题 -->
+<div class="titl-popular container flex-s">
+    <h2 class="">热 门 电 影</h2>
+    <ul class="flex-c">
+        <li>
+            <i class="iconfont icon-sanjiao4"></i>
+        </li>
+        <li>
+            <i class="iconfont icon-triangle-right"></i>
+        </li>
+    </ul>
+
+</div>
+<div class="titl-popular-hr"></div>
+<div class="popular-clothing container flex-s">
+    <div class="barrage">
+        <marquee behavior="" direction="" truespeed scrollamount="1" scrolldelay="10"> </marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="11" scrolldelay="72"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="3" scrolldelay="10"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="6" scrolldelay="42"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="9" scrolldelay="68"> </marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="8" scrolldelay="54"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="3" scrolldelay="58"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="6" scrolldelay="42"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="2" scrolldelay="45"> </marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="9" scrolldelay="20"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="3" scrolldelay="10"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="6" scrolldelay="50"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="5" scrolldelay="15"> </marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="7" scrolldelay="65"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="3" scrolldelay="85"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="6" scrolldelay="41"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="17" scrolldelay="12"> </marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="9" scrolldelay="68"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="3" scrolldelay="78"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="6" scrolldelay="58"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="5" scrolldelay="98"> </marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="8" scrolldelay="54"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="3" scrolldelay="52"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="6" scrolldelay="35"></marquee>
+    </div>
+    <div class="show-img">
+        <a href="/movieinformation/?name=ly">
+            <img src="../static/img/luya.jpg" alt="" onmouseover="over('#51acb5')" onmouseleave="leave(this)">
+            <span class="t1">乳牙 / 谢谢你爱过我(台)</span>
+            <span class="t2">澳大利亚, 2019</span>
+        </a>
+    </div>
+    <div class="show-img">
+        <a href="/movieinformation/?name=sxhl">
+            <img src="../static/img/The Broken Heart Gallery.jpg" alt="" onmouseover="over('#ed569d')" onmouseleave="leave(this)">
+            <span class="t1">伤心画廊</span>
+            <span class="t2">国,加拿大, 2020</span>
+        </a>
+    </div>
+    <div class="show-img">
+        <a href="/movieinformation/?name=gmya">
+            <img src="../static/img/敢梦有爱.jpg" alt="" onmouseover="over('#cc7c37')" onmouseleave="leave(this)">
+            <span class="t1">敢梦有爱</span>
+            <span class="t2">剧情 / 爱情, 2020</span>
+        </a>
+    </div>
+</div>
+<div class="popular-clothing container flex-s">
+    <div class="barrage">
+        <marquee behavior="" direction="" truespeed scrollamount="1" scrolldelay="10"> </marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="11" scrolldelay="72"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="3" scrolldelay="10"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="6" scrolldelay="42"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="9" scrolldelay="68"> </marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="8" scrolldelay="54"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="3" scrolldelay="58"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="6" scrolldelay="42"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="2" scrolldelay="45"> </marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="9" scrolldelay="20"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="3" scrolldelay="10"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="6" scrolldelay="50"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="5" scrolldelay="15"> </marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="7" scrolldelay="65"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="3" scrolldelay="85"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="6" scrolldelay="41"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="17" scrolldelay="12"> </marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="9" scrolldelay="68"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="3" scrolldelay="78"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="6" scrolldelay="58"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="5" scrolldelay="98"> </marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="8" scrolldelay="54"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="3" scrolldelay="52"></marquee>
+        <marquee behavior="" direction="" truespeed scrollamount="6" scrolldelay="35"></marquee>
+    </div>
+    <div class="show-img">
+        <a href="/movieinformation/?name=behtd">
+            <img src="../static/img/比尔和泰德寻歌记.jpg" alt="" onmouseover="over('#0a1540')" onmouseleave="leave(this)">
+            <span class="t1">比尔和泰德寻歌记</span>
+            <span class="t2">喜剧 / 科幻 / 音乐, 2020</span>
+        </a>
+    </div>
+    <div class="show-img">
+        <a href="/movieinformation/?name=rhpy">
+            <img src="../static/img/如何培养一个女孩.jpg" alt="" onmouseover="over('#f47f8c')" onmouseleave="leave(this)">
+            <span class="t1">如何培养一个女孩</span>
+            <span class="t2">青春期少女的养成方法, 2020</span>
+        </a>
+    </div>
+    <div class="show-img">
+        <a href="/movieinformation/?name=rnyn">
+            <img src="../static/img/若能与你共乘海浪之上.jpg" alt="" onmouseover="over('#21ace6')" onmouseleave="leave(this)">
+            <span class="t1">若能与你共乘海浪之上</span>
+            <span class="t2">FEBRUARY 10, 2020</span>
+        </a>
+    </div>
+</div>
+
+<div class="bottom-hr">
+</div>
+<iframe loop="loop" allow="autoplay" style="display:none" src="../static/other/Thomas.mp3"></iframe>
+<div class="Bottom"></div>
+</body>
+</html>

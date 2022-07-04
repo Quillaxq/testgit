@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+
+<body>
+<div class="login-box">
+    <div class="from-login">
+        <div class="left">
+        </div>
+        <div class="right">
+            <div class="login-input-box">
+                <form action="/register/" method="post">
+                    {% csrf_token %}
+                    <div class="switch">
+                        <a href="/login/" >
+                            <span>登录</span>
+                        </a>
+                        <span>/</span>
+                        <span class="active">注册</span>
+                    </div>
+                    <div class="title">
+                        欢迎注册....
+                    </div>
+                    <div class="input-text">
+                        <input class="input"type="text" name="userid" placeholder="账号" autocomplete="off" required/>
+                        <input class="input" type="text" name="username" placeholder="用户名" required/>
+                        <input class="input" type="password" name="userpasswd" placeholder="密码" id="password1" required/>
+                        <input class="input" type="password" placeholder="确认密码" id="password2" onblur="check()" required>
+                    </div>
+                    <div class="login-input-btn">
+                        <button type="submit" name="reg2" style="font-size: 24px;">注册</button>
+                    </div>
+                    <script type="text/javascript">
+                        function check() {
+                            var password1 = document.getElementById("password1").value;
+                            var password2 = document.getElementById("password2").value;
+                            if (password1 == password2) {
+                                return true;
+                            } else {
+                                alert("两次密码不一致！");
+                                return false;
+                            }
+                        }
+                    </script>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<p>{{ rlt }}</p>
+</html>
